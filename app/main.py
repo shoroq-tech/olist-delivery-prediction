@@ -31,6 +31,7 @@ sys.path.insert(0, str(BASE_DIR))
 os.chdir(BASE_DIR)
 
 from src.predict import DeliveryPredictor  # noqa: E402
+from app.monitoring import setup_monitoring, log_prediction  # noqa: E402
 
 # ---------------------------------------------------------------- config
 with open(BASE_DIR / "config" / "config.yaml", encoding="utf-8") as f:
@@ -76,6 +77,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+setup_monitoring(app)
+
 
 def get_predictor() -> DeliveryPredictor:
     predictor = state["predictor"]
@@ -117,7 +120,9 @@ def model_info():
 def predict(req: PredictRequest):
     predictor = get_predictor()
     try:
-        return predictor.predict(req.order)
+        result = predictor.predict(req.order)
+        log_prediction(req.order, result)
+        return result
     except Exception as exc:
         logger.exception("Prediction failed")
         raise HTTPException(status_code=422, detail=f"Prediction failed: {exc}")
@@ -129,7 +134,9 @@ def predict_batch(req: BatchRequest):
     results = []
     for i, order in enumerate(req.orders):
         try:
-            results.append(predictor.predict(order))
+            res = predictor.predict(order)
+            log_prediction(order, res)
+            results.append(res)
         except Exception as exc:
             logger.exception("Prediction failed for order index %d", i)
             results.append({"index": i, "error": str(exc)})
