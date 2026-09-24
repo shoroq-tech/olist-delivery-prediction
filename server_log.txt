@@ -1,0 +1,18 @@
+INFO:     Started server process [16580]
+INFO:     Waiting for application startup.
+2026-09-23 21:53:55,360 | INFO | app.main | Loading model...
+C:\Users\islam\anaconda3\envs\spyder-\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.5.1 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+2026-09-23 21:53:56,698 | INFO | src.predict | تم تحميل الموديل من models/model.pkl
+2026-09-23 21:53:56,700 | INFO | src.features | تم تحميل state_encoder من models/state_encoder.pkl
+2026-09-23 21:53:56,700 | INFO | app.main | Model loaded (version 1.0.0)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62573 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62573 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62610 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63117 - "POST /predict/batch HTTP/1.1" 422 Unprocessable Content
+2026-09-23 22:53:09,379 | INFO | src.features | الفيتشرز جاهزة بشكل: (1, 36)
+2026-09-23 22:53:09,382 | INFO | src.predict | توقع جديد: is_late=0, probability=0.2576, model_version=1.0.0
+INFO:     127.0.0.1:63157 - "POST /predict HTTP/1.1" 200 OK
